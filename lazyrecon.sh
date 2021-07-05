@@ -3,6 +3,10 @@ set -emE
 
 # Invoke with sudo because of masscan/nmap
 
+#import the config
+#https://stackoverflow.com/questions/5228345/how-to-reference-a-file-for-variables-using-bash
+. lazyconfig
+
 # https://golang.org/doc/install#install
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$HOME/go/bin:$HOMEDIR/go/bin
 
@@ -50,6 +54,47 @@ mad= # if you sad about subdomains count, call it
 alt= # permutate and alterate subdomains
 discord= # send notifications
 quiet= # quiet mode
+
+#Verify all dependency tools work
+echo "Checking tools..."
+subfinder --version 2> /dev/null
+interactsh-client -h 2> /dev/null
+assetfinder --help 2> /dev/null
+if [[ -e $HOMEDIR/github-subdomains.py ]]; then
+  echo "github-subdomains.py not found!"
+fi
+if [[ -e $HOMEDIR/github-endpoints.py ]]; then
+  echo "github-endpoints.py not found!"
+fi
+waybackurls --help 2> /dev/null
+gau -version 1> /dev/null
+altdns --help 1> /dev/null
+dnsgen --help 1> /dev/null
+shuffledns -version 2> /dev/null
+masscan --help 1> /dev/null
+dnsx -version 2> /dev/null
+httpx -version 2> /dev/null
+nuclei -version 2> /dev/null
+if [[ -e $HOMEDIR/smuggler.py ]]; then
+  echo "smuggler.py not found!"
+fi
+ffuf -V 1> /dev/null
+hydra -help 1> /dev/null
+gf --help 2> /dev/null
+qsreplace --help 2> /dev/null
+unfurl --help 2> /dev/null
+sqlmap --help 1> /dev/null
+gospider --help 1> /dev/null
+hakrawler --help 2> /dev/null
+if [[ -e $HOMEDIR/ssrf.py ]]; then
+  echo "ssrf-headers-tool not found!"
+fi
+# storenth-lfi is already included in nuclei-templates
+nmap --help 1> /dev/null
+chromium --help 1> /dev/null
+interlace --help 1> /dev/null
+dnsx --version 2> /dev/null
+
 
 # definitions
 enumeratesubdomains(){
@@ -286,7 +331,7 @@ nucleitest(){
     # use -c for maximum templates processed in parallel
     nuclei -silent -l $TARGETDIR/3-all-subdomain-live-scheme.txt -t $HOMEDIR/nuclei-templates/technologies/ -o $TARGETDIR/nuclei/nuclei_output_technology.txt
     echo "[nuclei] CVE testing..."
-    nuclei -v -disk-export $TARGETDIR/nuclei/nucleilog -o $TARGETDIR/nuclei/nuclei_output.txt \
+    nuclei -v -irr -markdown-export $TARGETDIR/nuclei/nucleilog -o $TARGETDIR/nuclei/nuclei_output.txt \
                     -l $TARGETDIR/3-all-subdomain-live-scheme.txt \
                     -t $HOMEDIR/nuclei-templates/vulnerabilities/ \
                     -t $HOMEDIR/nuclei-templates/cves/2014/ \
@@ -650,7 +695,7 @@ recon(){
 report(){
   echo "Generating HTML-report here..."
   ./helpers/report.sh $1 $TARGETDIR > $TARGETDIR/report.html
-  /usr/local/bin/chromium --headless --no-sandbox --print-to-pdf=${TARGETDIR}/report.pdf file://${TARGETDIR}/report.html
+  chromium --headless --no-sandbox --print-to-pdf=${TARGETDIR}/report.pdf file://${TARGETDIR}/report.html
   chown $HOMEUSER: $TARGETDIR/report.pdf
   echo "Report done!"
 }
