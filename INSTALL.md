@@ -46,5 +46,6 @@ go >= 1.14
 27. [nmap](https://nmap.org/download.html)
 28. [chromium](https://github.com/storenth/chromium-latest-linux.git)
 29. [interlace](https://github.com/codingo/Interlace.git)
+30. [page-fetch](https://github.com/detectify/page-fetch)
 
 > (You may copy each executable dependency to `/usr/local/bin/`, create symlinc like: `ln -s $HOME/github-subdomains.py /usr/local/bin/github-subdomains`, or just export it to the PATH `export PATH=~/masscan/bin/masscan:$PATH`)

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# masscan_output.gnmap input
 nmap_nse(){
   # https://gist.github.com/storenth/b419dc17d2168257b37aa075b7dd3399
   # https://youtu.be/La3iWKRX-tE?t=1200

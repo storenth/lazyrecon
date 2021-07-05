@@ -28,6 +28,8 @@ third_party_go_dependencies(){
     gotools[11]="go get -u github.com/tomnomnom/gf"
     gotools[12]="go get -u github.com/jaeles-project/gospider"
     gotools[13]="go get -u -v github.com/lc/gau"
+    gotools[14]="go get github.com/detectify/page-fetch"
+    gotools[15]="go get github.com/d3mondev/puredns/v2"
 
     for gotool in "${gotools[@]}"; do
         $gotool
@@ -81,9 +83,9 @@ third_party_dependencies(){
         git clone https://github.com/blechschmidt/massdns.git
         if cd massdns; then
             if [[ -n "$MACOS" ]]; then
-                sudo make nolinux
+                make nolinux
             else
-                sudo make
+                make
             fi
             ln -s $PWD/bin/massdns /usr/local/bin/massdns
             cd -
@@ -93,7 +95,7 @@ third_party_dependencies(){
     if ! type masscan; then
         git clone https://github.com/robertdavidgraham/masscan.git
         if cd masscan; then
-            sudo make
+            make
             ln -s $PWD/bin/masscan /usr/local/bin/masscan
             cd -
         fi
@@ -127,6 +129,12 @@ chromium_dependencies(){
     fi
 }
 
+third_party_wordlists(){
+    if ! wget -nc https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt; then
+        exit 1
+    fi
+}
+
 notification(){
     echo
     echo "Dependencies insalled in $PWD"
@@ -138,6 +146,7 @@ main() {
     third_party_dependencies
     custom_origin_dependencies
     chromium_dependencies
+    third_party_wordlists
 
     notification
 }

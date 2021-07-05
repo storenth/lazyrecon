@@ -1,9 +1,13 @@
 #!/bin/bash
 
-usersList=./wordlist/top-users.txt
-passwordsList=./wordlist/top-passwords.txt
+# used in hydra attack
+# use preferred list if possible
+# too much words required up to 6 hours
+usersList=../wordlist/top-users.txt
+passwordsList=../wordlist/top-passwords.txt
 
 # masscan_output.gnmap input
+# hydra user/password attack on popular protocols
 hydratest(){
   echo "[hydra] attacking network protocols"
   while read line; do
