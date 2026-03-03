@@ -4,6 +4,12 @@ set -eE
 # Script to test is it all dependencies installed through `type` command
 # The dependency list is passed as a single positional parameter
 
+# Source configuration if available
+[ -f "./lazyconfig" ] && source ./lazyconfig
+
+# Ensure HOMEDIR is set
+export HOMEDIR="${HOMEDIR:-$HOME}"
+
 # array to test for dependencies
 nuclei_templates(){
     while read line; do

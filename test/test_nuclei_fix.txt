@@ -1,0 +1,11 @@
+# Test input: http_services.txt format (from httpx)
+# httpx outputs URLs with proper protocol prefixes
+http://testasp.vulnweb.com
+https://example.com
+http://testphp.vulnweb.com
+
+# Expected output: nuclei uses http_services.txt directly
+# No transformation needed - httpx already provides proper URLs
+http://testasp.vulnweb.com
+https://example.com
+http://testphp.vulnweb.com

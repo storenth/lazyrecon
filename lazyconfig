@@ -1,14 +1,41 @@
-export HOMEUSER=
-export HOMEDIR=
-export STORAGEDIR=${HOMEDIR}/lazytargets
+# Base Configuration
+export HOMEDIR="$HOME"
+export STORAGEDIR="$HOMEDIR/lazytargets"
+export GOPATH="$HOMEDIR/go"
 
-export GITHUBTOKEN=
-export DISCORDWEBHOOKURL=
+# DNS Resolution (massdns)
+# Note: massdns does not support rate limiting or timeout flags
+# Only resolvers can be configured
+export MASSDNS_RESOLVERS="./resolvers/mini_resolvers.txt"
 
-export CUSTOMHEADER=''
-export NUMBEROFTHREADS=20
-export REQUESTSPERSECOND=5
+# naabu Host Discovery
+export NAABU_PING_RATE=1000
+export NAABU_PING_TIMEOUT=5
+export NAABU_PING_RETRIES=2
 
-export GOPATH=$HOMEDIR/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$HOME/go/bin
-export GO111MODULE=on
+# naabu Port Scanning
+export NAABU_PORT_RATE=100
+export NAABU_PORT_TIMEOUT=5
+export NAABU_PORT_RETRIES=2
+export NAABU_PORT_CONCURRENT=100
+export NAABU_TOP_PORTS=1000
+
+# nuclei Vulnerability Scanning
+export NUCLEI_TEMPLATES="$HOME/nuclei-templates"
+export NUCLEI_RATE=100
+export NUCLEI_TIMEOUT=10
+export NUCLEI_RETRIES=2
+export NUCLEI_BULK_SIZE=25
+export NUCLEI_HTTP_THREADS=10
+export NUCLEI_STATS=false
+export NUCLEI_DEBUG=false
+
+# httpx HTTP Service Detection
+# Note: httpx uses -threads flag for concurrency (not -c like httprobe)
+export HTTPX_CONCURRENCY=20
+export HTTPX_TIMEOUT=5
+export HTTPX_RETRIES=2
+
+# Resource Limits
+export MAX_CPU_PERCENT=80
+export MAX_RAM_PERCENT=80
